@@ -6,13 +6,13 @@ require(data.table)
 
 #depth profile
 #Baltic
-bio_dp1 <- fread("Input/Baltic/transposed_data_from_harmonized_biota_profiles_Baltic_200803.txt")
+bio_dp1 <- fread("Input/2021/transposed_data_from_Baltic_profiles_BIOTA_v2_210128.txt")
 bio_dp1$emd_region <- "Baltic"     
 #Black Sea
-bio_dp2 <- fread("Input/Black/transposed_data_from_BLS_Harmonized_Contaminants_Biota.txt")
+bio_dp2 <- fread("Input/2021/transposed_data_from_BlackSea_Contaminants_Biota_2021_v2.txt")
 bio_dp2$emd_region <- "Black"     
 #Mediterranean Sea
-bio_dp3 <- fread("Input/Mediterranean/transposed_data_from_Contaminant_MED_profiles_biota.txt")
+bio_dp3 <- fread("Input/2021/transposed_data_from_Mediterranean_Contaminant_profiles_Biota.txt")
 bio_dp3$emd_region <- "Mediterranean"     
 
 #Merge depth profile tables
@@ -29,16 +29,16 @@ write.table(bio_dpAll, file = "Results/bio_dpAll.txt", quote=FALSE, sep = "\t",
 
 #time series
 #Atlantic
-bio_ts1 <- fread("Input/Atlantic/transposed_data_from_harmonized_Biota_time_series.txt")
+bio_ts1 <- fread("Input/2021/transposed_data_from_NEAtlantic_timeseries_Biota.txt")
 bio_ts1$emd_region <- "Atlantic"     
 #Baltic
-bio_ts2 <- fread("Input/Baltic/transposed_data_from_harmonized_biota_timeseries_Baltic_200623.txt")
+bio_ts2 <- fread("Input/2021/transposed_data_from_Contaminants_all_Baltic_biota_timeseries_2021.txt")
 bio_ts2$emd_region <- "Baltic"  
 #Mediterranean
-bio_ts3 <- fread("Input/Mediterranean/transposed_data_from_Contaminant_MED_timeseries_biota.txt")
+bio_ts3 <- fread("Input/2021/transposed_data_from_Mediterranean_Contaminant_timeseries_Biota.txt")
 bio_ts3$emd_region <- "Mediterranean"  
 #North Sea
-bio_ts4 <- fread("Input/NorthSea/transposed_data_from_data_from_harmonized_Harmonized_2019-2020_biota_data.txt")
+bio_ts4 <- fread("Input/2021/transposed_data_from_NorthSea_biota_from_harmonized_time_series w_profiles_v4.txt")
 bio_ts4$emd_region <- "NorthSea"
 
 #Merge time series tables
