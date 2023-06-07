@@ -6,13 +6,13 @@ require(data.table)
 
 #depth profile
 #Baltic
-bio_dp1 <- fread("Input/2022/Contaminants_Baltic_biota_profiles_2022_transposed.txt")
+bio_dp1 <- fread("Input/2021/transposed_data_from_Baltic_profiles_BIOTA_v2_210128.txt")
 bio_dp1$emd_region <- "Baltic"     
 #Black Sea
-bio_dp2 <- fread("Input/2022/Contaminants_BlackSea_biota_profiles_2022_transposed.txt")
+bio_dp2 <- fread("Input/2021/transposed_data_from_BlackSea_Contaminants_Biota_2021_v2.txt")
 bio_dp2$emd_region <- "Black"     
 #Mediterranean Sea
-bio_dp3 <- fread("Input/2022/Contaminants_Med_biota_profiles_2022_transposed.txt")
+bio_dp3 <- fread("Input/2021/transposed_data_from_Mediterranean_Contaminant_profiles_Biota.txt")
 bio_dp3$emd_region <- "Mediterranean"     
 
 #Merge depth profile tables
@@ -29,24 +29,20 @@ write.table(bio_dpAll, file = "Results/bio_dpAll.txt", quote=FALSE, sep = "\t",
 
 #time series
 #Atlantic
-bio_ts1 <- fread("Input/2022/Contaminants_Atlantic_biota_timeseries_2022_transposed.txt")
+bio_ts1 <- fread("Input/2021/transposed_data_from_NEAtlantic_timeseries_Biota.txt")
 bio_ts1$emd_region <- "Atlantic"     
 #Baltic
-#After talking with Eugenia and Karin Weslander it was discovered that the 2021 time series should be reused in 2022. There has been no changes to it
 bio_ts2 <- fread("Input/2021/transposed_data_from_Contaminants_all_Baltic_biota_timeseries_2021.txt")
 bio_ts2$emd_region <- "Baltic"  
 #Mediterranean
-bio_ts3 <- fread("Input/2022/Contaminants_Med_biota_timeseries_2022_transposed_v3.txt")
+bio_ts3 <- fread("Input/2021/transposed_data_from_Mediterranean_Contaminant_timeseries_Biota.txt")
 bio_ts3$emd_region <- "Mediterranean"  
-#rename column UT_ISO8601 to time_ISO8601, needed in the 2022 harmonized Med time series dataset in first original version
-#colnames(bio_ts3)[colnames(bio_ts3) == "UT_ISO8601"] = "time_ISO8601"
-#setnames(DT, "mpg_sq", "mpq_squared")
 #North Sea
-#bio_ts4 <- fread("Input/2021/transposed_data_from_NorthSea_biota_from_harmonized_time_series w_profiles_v4.txt")
-#bio_ts4$emd_region <- "NorthSea"
+bio_ts4 <- fread("Input/2021/transposed_data_from_NorthSea_biota_from_harmonized_time_series w_profiles_v4.txt")
+bio_ts4$emd_region <- "NorthSea"
 
 #Merge time series tables
-bio_tsAll <- rbindlist(list(bio_ts1, bio_ts2,bio_ts3), use.names = TRUE, fill=TRUE)
+bio_tsAll <- rbindlist(list(bio_ts1,bio_ts2,bio_ts3,bio_ts4), use.names = TRUE, fill=TRUE)
 #Add id
 id <- seq_len(nrow(bio_tsAll))
 bio_tsAll <- cbind(id, bio_tsAll)
