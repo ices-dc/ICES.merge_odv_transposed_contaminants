@@ -68,7 +68,7 @@ rm(id)
 #bio_tsAll$Value_txt <- bio_tsAll$Value
 
 #Add a column with the 180 degree longitude
-bio_tsAll <- bio_dpAll[,Longitude_180 := ifelse(`Longitude` >= 180, `Longitude` - 360, `Longitude`)]
+bio_tsAll <- bio_tsAll[,Longitude_180 := ifelse(`Longitude` >= 180, `Longitude` - 360, `Longitude`)]
 
 #write output table
 write.table(bio_tsAll, file = "Results/bio_tsAll.txt", quote=FALSE, sep = "\t",
