@@ -1,4 +1,6 @@
 require(data.table)
+require(dplyr)
+
  
 
 ####################################
@@ -6,22 +8,29 @@ require(data.table)
 
 #depth profile
 #Baltic
-bio_dp1 <- fread("Input/2022/Contaminants_Baltic_biota_profiles_2022_transposed.txt")
+bio_dp1 <- fread("Input/2022/Contaminants_Baltic_biota_profiles_2022_transposed.txt", check.names = TRUE)
 bio_dp1$emd_region <- "Baltic"     
 #Black Sea
-bio_dp2 <- fread("Input/2022/Contaminants_BlackSea_biota_profiles_2022_transposed.txt")
+bio_dp2 <- fread("Input/2022/Contaminants_BlackSea_biota_profiles_2022_transposed.txt", check.names = TRUE)
 bio_dp2$emd_region <- "Black"     
 #Mediterranean Sea
-bio_dp3 <- fread("Input/2022/Contaminants_Med_biota_profiles_2022_transposed.txt")
+bio_dp3 <- fread("Input/2022/Contaminants_Med_biota_profiles_2022_transposed.txt", check.names = TRUE)
 bio_dp3$emd_region <- "Mediterranean"     
 
 #Merge depth profile tables
 bio_dpAll <- rbindlist(list(bio_dp1,bio_dp2,bio_dp3), use.names = TRUE, fill=TRUE)
+#Rename columns
+colnames(bio_dpAll) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Depth","Depth_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS_no","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
 #add id
 id <- seq_len(nrow(bio_dpAll))
 bio_dpAll <- cbind(id, bio_dpAll)
+rm(id)
+
 #Add value_txt - not needed for now
 #bio_dpAll$Value_txt <- bio_dpAll$Value
+
+#Add a column with the 180 degree longitude
+bio_dpAll <- bio_dpAll[,Longitude_180 := ifelse(`Longitude` >= 180, `Longitude` - 360, `Longitude`)]
 
 #Write output table
 write.table(bio_dpAll, file = "Results/bio_dpAll.txt", quote=FALSE, sep = "\t",
@@ -29,14 +38,14 @@ write.table(bio_dpAll, file = "Results/bio_dpAll.txt", quote=FALSE, sep = "\t",
 
 #time series
 #Atlantic
-bio_ts1 <- fread("Input/2022/Contaminants_Atlantic_biota_timeseries_2022_transposed.txt")
+bio_ts1 <- fread("Input/2022/Contaminants_Atlantic_biota_timeseries_2022_transposed.txt", check.names = TRUE)
 bio_ts1$emd_region <- "Atlantic"     
 #Baltic
 #After talking with Eugenia and Karin Weslander it was discovered that the 2021 time series should be reused in 2022. There has been no changes to it
-bio_ts2 <- fread("Input/2021/transposed_data_from_Contaminants_all_Baltic_biota_timeseries_2021.txt")
+bio_ts2 <- fread("Input/2021/transposed_data_from_Contaminants_all_Baltic_biota_timeseries_2021.txt", check.names = TRUE)
 bio_ts2$emd_region <- "Baltic"  
 #Mediterranean
-bio_ts3 <- fread("Input/2022/Contaminants_Med_biota_timeseries_2022_transposed_v3.txt")
+bio_ts3 <- fread("Input/2022/Contaminants_Med_biota_timeseries_2022_transposed_v3.txt", check.names = TRUE)
 bio_ts3$emd_region <- "Mediterranean"  
 #rename column UT_ISO8601 to time_ISO8601, needed in the 2022 harmonized Med time series dataset in first original version
 #colnames(bio_ts3)[colnames(bio_ts3) == "UT_ISO8601"] = "time_ISO8601"
@@ -46,13 +55,20 @@ bio_ts3$emd_region <- "Mediterranean"
 #bio_ts4$emd_region <- "NorthSea"
 
 #Merge time series tables
-bio_tsAll <- rbindlist(list(bio_ts1, bio_ts2,bio_ts3), use.names = TRUE, fill=TRUE)
+bio_tsAll <- rbindlist(list(bio_ts1,bio_ts2,bio_ts3), use.names = TRUE, fill=TRUE)
+#Rename columns
+colnames(bio_tsAll) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinimumInstrumentDepth","MaximumInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Time","Time_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS_no","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
+
+
 #Add id
 id <- seq_len(nrow(bio_tsAll))
 bio_tsAll <- cbind(id, bio_tsAll)
+rm(id)
 #Add value_txt - not needed for now
 #bio_tsAll$Value_txt <- bio_tsAll$Value
 
+#Add a column with the 180 degree longitude
+bio_tsAll <- bio_dpAll[,Longitude_180 := ifelse(`Longitude` >= 180, `Longitude` - 360, `Longitude`)]
 
 #write output table
 write.table(bio_tsAll, file = "Results/bio_tsAll.txt", quote=FALSE, sep = "\t",
