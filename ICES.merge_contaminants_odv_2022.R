@@ -1,6 +1,6 @@
-require(data.table)
-require(dplyr)
-require(R.utils)
+library(data.table)
+library(dplyr)
+library(R.utils)
 
  
 #EMD 2022 transposed data provided in https://drive.google.com/drive/u/0/folders/1VHCP3pLMIfTMIKyDWSysOnl9AESyhqM3
@@ -142,9 +142,11 @@ gzip("Results/EMD_sed_tsAll.txt")
 #Arctic
 wat_dp1 <- fread("Input/2022/Contaminants_Artic_water_profiles_2022_transposed.txt", check.names = TRUE)
 wat_dp1$emd_region <- "Arctic"  
+#Rename odd column name to fit others
+setnames(wat_dp1, "Depth..m.", "DepBelowSurf..m.")
 #Atlantic
 wat_dp2 <- fread("Input/2022/Contaminants_Atlantic_water_profiles_2022_transposed.txt", check.names = TRUE)
-wat_dp2$emd_region <- "Atlantic"  
+wat_dp2$emd_region <- "Atlantic" 
 #Baltic
 wat_dp3 <- fread("Input/2022/Contaminants_Baltic_water_profiles_2022_transposed.txt", check.names = TRUE)
 wat_dp3$emd_region <- "Baltic"  
