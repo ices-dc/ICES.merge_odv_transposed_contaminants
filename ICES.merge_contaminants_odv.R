@@ -20,7 +20,7 @@ bio_dp3$emd_region <- "Mediterranean"
 #Merge depth profile tables
 bio_dpAll <- rbindlist(list(bio_dp1,bio_dp2,bio_dp3), use.names = TRUE, fill=TRUE)
 #Rename columns
-colnames(bio_dpAll) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Depth","Depth_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS_no","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
+colnames(bio_dpAll) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Depth","Depth_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
 #add id
 id <- seq_len(nrow(bio_dpAll))
 bio_dpAll <- cbind(id, bio_dpAll)
@@ -57,7 +57,7 @@ bio_ts3$emd_region <- "Mediterranean"
 #Merge time series tables
 bio_tsAll <- rbindlist(list(bio_ts1,bio_ts2,bio_ts3), use.names = TRUE, fill=TRUE)
 #Rename columns
-colnames(bio_tsAll) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinimumInstrumentDepth","MaximumInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Time","Time_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS_no","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
+colnames(bio_tsAll) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Time","Time_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
 
 
 #Add id
