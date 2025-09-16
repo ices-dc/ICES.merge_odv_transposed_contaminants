@@ -9,26 +9,28 @@ library(R.utils)
 
 #depth profile
 #Baltic
-bio_dp1 <- fread("Input/2025/EMD_contaminants_Baltic_profiles_biota_2025_EEA_transposed.txt", check.names = TRUE)
+#I have removed the check.names = TRUE from all reads. It does not seem to be needed. Also column are renamed in the end
+#bio_dp1 <- fread("Input/2025/EMD_contaminants_Baltic_profiles_biota_2025_EEA_transposed.txt", check.names = TRUE)
+bio_dp1 <- fread("Input/2025/EMD_contaminants_Baltic_profiles_biota_2025_EEA_transposed.txt")
 bio_dp1$emd_region <- "Baltic"     
 #Rename colnames 
 colnames(bio_dp1) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Depth","Depth_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
 
 #Black Sea
-bio_dp2 <- fread("Input/2025/EMD_contaminants_Black_profiles_biota_2025_EEA_transposed.txt", check.names = TRUE)
+bio_dp2 <- fread("Input/2025/EMD_contaminants_Black_profiles_biota_2025_EEA_transposed.txt")
 bio_dp2$emd_region <- "Black"     
 #Rename colnames 
 colnames(bio_dp2) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Depth","Depth_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
 
 #Mediterranean Sea
-bio_dp3 <- fread("Input/2025/EMD_contaminants_Med_profiles_biota_2025_EEA_transposed.txt", check.names = TRUE)
+bio_dp3 <- fread("Input/2025/EMD_contaminants_Med_profiles_biota_2025_EEA_transposed.txt")
 bio_dp3$emd_region <- "Mediterranean" 
 #Rename colnames 
 colnames(bio_dp3) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Depth","Depth_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
 
 #North Sea
 bio_dp4 <- fread("Input/2025/EMD_contaminants_North_profiles_biota_2025_EEA_transposed.txt")
-bio_dp4$emd_region <- "Mediterranean" 
+bio_dp4$emd_region <- "North Sea" 
 #Rename colnames 
 colnames(bio_dp4) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Depth","Depth_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
 
@@ -53,6 +55,11 @@ bio_dpAll <- rbindlist(list(bio_dp1,bio_dp2,bio_dp3,bio_dp4), use.names = TRUE, 
 
 #Rename columns for import into DB - used for MAR001 - not needed if they are already renamed of course 
 #colnames(bio_dpAll) <- c("Cruise","Station","DateTime","Longitude","Latitude","LOCAL_CDI_ID","EDMO_code","BotDepth","InstrumentInfo","References","Datum","WaterDepth","DepthReference","MinInstrumentDepth","MaxInstrumentDepth","Instrument_GearType","StationName","Originator","ProjectName","EDMEDreferences","AccessRestriction","CDI_record_id","SampleIdentifier","SubsampleIdentifier","ODV_internal_sample_number","Depth","Depth_QV","Value","Value_QV","Units","P01_conceptid","P01_preflabel","S06_preflabel","S07_preflabel","S27_preflabel","S27_altlabel","CAS","S02_preflabel","S26_preflabel","S25_preflabel","S03_preflabel","S04_preflabel","S05_preflabel","S21_preflabel","emd_region")
+
+#Get a list of colnames for a frame
+#navne <- colnames(bio_dp4)
+#writeLines(navne, "dp4_North.txt")
+
 
 #add id
 id <- seq_len(nrow(bio_dpAll))
@@ -83,16 +90,16 @@ rm(max_lengths)
 
 #time series
 #Atlantic
-bio_ts1 <- fread("Input/2025/EMD_contaminants_Atlantic_timeseries_biota_2025_EEA_transposed.txt", check.names = TRUE)
+bio_ts1 <- fread("Input/2025/EMD_contaminants_Atlantic_timeseries_biota_2025_EEA_transposed.txt")
 bio_ts1$emd_region <- "Atlantic"     
 #Baltic
-bio_ts2 <- fread("Input/2025/EMD_contaminants_Baltic_timeseries_biota_2025_EEA_transposed.txt", check.names = TRUE)
+bio_ts2 <- fread("Input/2025/EMD_contaminants_Baltic_timeseries_biota_2025_EEA_transposed.txt")
 bio_ts2$emd_region <- "Baltic"  
 #Mediterranean
-bio_ts3 <- fread("Input/2025/EMD_contaminants_Med_timeseries_biota_2025_EEA_transposed.txt", check.names = TRUE)
+bio_ts3 <- fread("Input/2025/EMD_contaminants_Med_timeseries_biota_2025_EEA_transposed.txt")
 bio_ts3$emd_region <- "Mediterranean"  
 #North Sea
-bio_ts4 <- fread("Input/2025/EMD_contaminants_North_timeseries_biota_2025_EEA_transposed.txt", check.names = TRUE)
+bio_ts4 <- fread("Input/2025/EMD_contaminants_North_timeseries_biota_2025_EEA_transposed.txt")
 bio_ts4$emd_region <- "NorthSea"
 
 #Merge time series tables
